@@ -1,0 +1,284 @@
+# Plug 'oysandvik94/curl.nvim'
+#```
+openssl req -x509 -out localhost.crt -keyout localhost.key \
+	-newkey rsa:2048 -nodes -sha256 \
+	-subj '/CN=localhost' -extensions EXT -config <( \
+	 printf "[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
+#```
+
+# tell stopped
+curl -H
+    'Content-Type:application/json' -d '{
+        "jsonrpc":"2.0",
+        "id":"nazm",
+        "method":"aria2.tellStopped",
+        "params": ["token:foobar", 0, 100000]
+    }'
+http://localhost:6800/jsonrpc
+
+
+curl -H
+  'Content-Type:application/json' -d '{
+        "jsonrpc":"2.0",
+        "id":"nazm",
+        "method":"aria2.tellWaiting",
+        "params": ["token:foobar", 0, 100000]
+    }'
+http://localhost:6800/jsonrpc
+
+# tell acitve
+curl -H
+    'Content-Type:application/json' -d '{
+        "jsonrpc":"2.0",
+        "id":"nazm",
+        "method":"aria2.tellActive",
+        "params": ["token:foobar"]
+    }'
+http://localhost:6800/jsonrpc
+
+curl -H
+    'Content-Type:application/json' -d '{
+        "jsonrpc":"2.0",
+        "id":"nazm",
+        "method":"aria2.getVersion",
+        "params": ["token:foobar"]
+    }'
+http://localhost:6800/jsonrpc
+
+curl -H
+    'Content-Type:application/json' -d '{
+        "jsonrpc":"2.0",
+        "id":"nazm",
+        "method":"aria2.getPeers",
+        "params": ["token:foobar"]
+    }'
+http://localhost:6800/jsonrpc
+
+
+curl -H 'Content-Type:application/json' -d '{
+        "jsonrpc":"2.0",
+        "id":"nazm",
+        "method":"aria2.tellStatus",
+        "params": ["token:foobar", "8d8112fbf98fbb15"]
+    }'
+http://localhost:6800/jsonrpc
+
+
+curl -H
+    'Content-Type:application/json' -d '{
+        "jsonrpc":"2.0",
+        "id":"nazm",
+        "method":"aria2.getGlobalStat",
+        "params": ["token:foobar"]
+    }'
+http://localhost:6800/jsonrpc
+
+
+curl -H
+    'Content-Type:application/json' -d '{
+        "jsonrpc":"2.0",
+        "id":"nazm",
+        "method":"aria2.remove",
+        "params": ["token:foobar", "8a644ead9c6dde26"]
+    }'
+http://localhost:6800/jsonrpc
+
+curl -H
+    'Content-Type:application/json' -d '{
+        "jsonrpc":"2.0",
+        "id":"nazm",
+        "method":"aria2.purgeDownloadResult",
+        "params": ["token:foobar"]
+    }'
+http://localhost:6800/jsonrpc
+
+
+curl -H
+    'Content-Type:application/json' -d '{
+        "jsonrpc":"2.0",
+        "id":"nazm",
+        "method":"aria2.pause",
+        "params": ["token:foobar", "0"]
+    }'
+http://localhost:6800/jsonrpc
+
+
+curl -H 'Content-Type:application/json' -d '{
+        "id":"nazm",
+        "jsonrpc":"2.0",
+        "method":"system.listMethods",
+        "params": [
+          "token:foobar"
+        ]
+    }'
+http://localhost:6800/jsonrpc
+
+
+curl -H 'Content-Type:application/json' -d '{
+        "id":"nazm",
+        "jsonrpc":"2.0",
+        "method":"system.listNotifications",
+        "params": [
+          "token:foobar"
+        ]
+    }'
+http://localhost:6800/jsonrpc
+
+
+curl -H 'Content-Type: application/json' \
+  -d '{
+    "jsonrpc": "2.0",
+    "id": "nazm",
+    "method": "system.multicall",
+    "params": [[
+      {
+        "methodName": "aria2.addUri",
+        "params": [
+          "token:foobar",
+          ["andak"]
+        ]
+      },
+      {
+        "methodName": "aria2.addUri",
+        "params": [
+          "token:foobar",
+          ["akdjnak"]
+        ]
+      }
+    ]]
+  }'
+http://localhost:6800/jsonrpc
+
+
+curl -H 'Content-Type: application/json' \
+  -d '{
+    "id": "nazm",
+    "jsonrpc": "2.0",
+    "method": "system.multicall",
+    "params": [[
+      {
+        "methodName": "aria2.tellStatus",
+        "params": [ "token:foobar", "8258d4d594ceb5b2"]
+      },
+      {
+        "methodName": "aria2.tellStatus",
+        "params": [
+          "token:foobar", "8258d4d594ceb5b2"]
+      }
+    ]]
+  }'
+http://localhost:6800/jsonrpc
+
+
+
+# application api
+curl -c cookie -H
+    'Content-Type: application/json' \
+-d '{
+    "username": "admin",
+    "password": "checkcheck"
+    }'
+http://localhost:8080/api/auth/reg/admin
+
+curl -c cookie -H
+    'Content-Type: application/json' \
+-d '{
+    "username": "trasharia",
+    "password": "checkcheck"
+    }'
+http://localhost:8080/api/auth/login
+
+curl -v -b cookie -X DELETE \
+  -H 'Content-Type: application/json' \
+    -d '{
+    "gids": ["2ad3c647483a59d6"],
+    "deleteFile": true
+  }'
+http://localhost:8080/api/aria2/gid/remove
+
+
+curl -v -b cookie -X POST \
+  -H 'Content-Type: application/json' -d '{
+  "gid": "b2dd079e15614ba0"
+  }'
+http://localhost:8080/api/aria2/gid/pause
+
+
+curl -b cookie http://localhost:8080/api/auth/me
+
+curl -b cookie http://localhost:8080/api/aria2/user/history
+
+curl -b cookie "http://localhost:8080/api/aria2/user/history?page=1&limit=20"
+
+curl -b cookie "http://10.63.128.102:9050/api/aria2/user/history?page=1&limit=20"
+
+http://localhost:8080/api/auth/login
+
+# create a user
+curl -c cookie -H
+    'Content-Type: application/json' -d '{
+    "username": "hero",
+    "password": "helphelp",
+    "requesterUsername": "admin"
+    }'
+http://localhost:8080/api/auth/create/user
+
+# login
+curl -c cookie -H
+    'Content-Type: application/json' -d '{
+    "username": "hero",
+    "password": "helphelp"
+    }'
+http://localhost:8080/api/auth/login
+
+
+curl -c cookie -H
+  'Content-Type: application/json' -d '{
+    "username": "adminadmin",
+    "password": "checkcheck"
+    }'
+http://localhost:8080/api/auth/login
+
+
+curl -b cookie  \
+  -H 'Content-Type: application/json' -d '{
+      "uris": ["http://100.66.197.49:9080/guest/media/movies/The.Worst.Person.in.the.World.2021.1080p.BluRay.x264.%28NORWEGIAN%20With%20English%20Subtitles%29.MoviesMod.Club.mkv"]
+    }'
+http://localhost:5173/api/aria2/add/uris
+
+
+curl -b cookie -H
+    'Content-Type: application/json' -d '{
+      "gid": "306ef522e80aea42"
+    }'
+http://localhost:8080/api/aria2/gid/stop
+
+curl -X POST 'http://localhost:8080/api/aria2/global/set/options' \
+  -b cookie \
+  -H "Content-Type: application/json" \
+  -H "X-CSRF-Token: A-Ioh-S6s_r6H9B_I4XACEQrEd3u3uKFqdZ9Vou9dWo" \
+  -d '{
+    "options": {
+      "server-stat-timeout": "86"
+    }
+  }'
+
+
+curl -X POST 'http://localhost:8080/api/aria2/cmd/set/options' \
+  -b cookie \
+  -H "Content-Type: application/json" \
+  -H "X-CSRF-Token: RQJ3ebf9AbrCecObyldVR9Y_e00O8bD1mYphUitgFGE" \
+  -d '{
+    "options": {
+      "--rpc-secure": "true"
+    }
+}'
+
+
+
+
+
+
+
+
+
